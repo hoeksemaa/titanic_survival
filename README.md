@@ -2,7 +2,7 @@
 
 my ML is rusty so i'm using these resources to get back on track:
 - https://www.kaggle.com/competitions/titanic/data?select=test.csv
-- https://machinelearningmastery.com/pytorch-tutorial-develop-deep-learning-models/
+- most code copied from here: https://machinelearningmastery.com/pytorch-tutorial-develop-deep-learning-models/
 
 other nice resources:
 - https://towardsdatascience.com/building-efficient-custom-datasets-in-pytorch-2563b946fd9f
