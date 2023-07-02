@@ -16,9 +16,13 @@ from torch.nn import Linear
 from torch.nn import ReLU
 from torch.nn import Sigmoid
 
+# training
+from torch.optim import SGD
+from torch.nn import BCELoss
+
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--data", type=str, required=True, help="the name of the training datafile")
+    parser.add_argument("-d", "--data", type=str, required=True, help="the name of the datafile")
     args = vars(parser.parse_args())
     return args
 
@@ -86,11 +90,32 @@ def prepare_data(path):
     test_dl = DataLoader(test, batch_size=1024, shuffle=False)
     return train_dl, test_dl
 
+# train the model
+def train_model(train_dl, model):
+    # define the optimization
+    criterion = BCELoss()
+    optimizer = SGD(model.parameters(), lr=0.01, momentum=0.9)
+    # enumerate epochs
+    for epoch in range(100):
+        # enumerate mini batches
+        for i, (inputs, targets) in enumerate(train_dl):
+            # clear the gradients
+            optimizer.zero_grad()
+            # compute the model output
+            yhat = model(inputs)
+            # calculate loss
+            loss = criterion(yhat, targets)
+            # credit assignment
+            loss.backward()
+            # update model weights
+            optimizer.step()
+
 def main():
     args = get_args()
     train_dl, test_dl = prepare_data(args["data"])
     #print(len(train_dl.dataset), len(test_dl.dataset))
     model = MLP(10)
+    train_model(train_dl, model)
 
 if __name__ == "__main__":
     main()
